@@ -1,0 +1,12 @@
+# Placeholder vendor sepolicy for l681.
+#
+# The build is androidboot.selinux=permissive enforcing=0 (BoardConfig.mk
+# cmdline - which is also exactly what the last booting LOS 14.1 image used) and
+# SELINUX_IGNORE_NEVERALLOWS is on, because the MTK Nougat blob set trips A13
+# public-policy neverallows wholesale, as it did on the m681 and M6 lanes.
+#
+# Nothing real can be written here until a kernel boots far enough to produce a
+# single avc denial log on THIS device under Android 13. Writing speculative
+# rules now would be unverifiable. The l681 LOS 14.1 tree does carry a sepolicy
+# directory, but it is policy version 29 (POLICYVERS := 29 in its BoardConfig)
+# against an Android 7 base - none of it can be lifted unchanged.

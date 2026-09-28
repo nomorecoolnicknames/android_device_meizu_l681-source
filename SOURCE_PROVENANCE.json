@@ -1,0 +1,181 @@
+{
+  "schema_version": 1,
+  "source_commit": "d5668c638f488a56e51cb29b0e75058f95782913",
+  "device": "l681",
+  "android_version": 11,
+  "source_export_date": "2026-09-29",
+  "history": "Audited source snapshot; original private history preserved without rewriting.",
+  "files": [
+    {
+      "path": ".gitignore",
+      "source_path": ".gitignore",
+      "sha256": "0dfd96bcff3983da73e0426caf31efc2ba9f0f79b5b215141b860c7c107f9de3",
+      "bytes": 191,
+      "published_sha256": "0dfd96bcff3983da73e0426caf31efc2ba9f0f79b5b215141b860c7c107f9de3"
+    },
+    {
+      "path": "Android.bp",
+      "source_path": "Android.bp",
+      "sha256": "775f52f06f54f0353872abbee38b32dd3b006e22ef58a3d07ad2d15eeae3161e",
+      "bytes": 1411,
+      "published_sha256": "775f52f06f54f0353872abbee38b32dd3b006e22ef58a3d07ad2d15eeae3161e"
+    },
+    {
+      "path": "AndroidProducts.mk",
+      "source_path": "AndroidProducts.mk",
+      "sha256": "895d85c797e5b25b31e34a194115a2e09469b56a1d21dc2cf72e88c3375f8ab0",
+      "bytes": 221,
+      "published_sha256": "895d85c797e5b25b31e34a194115a2e09469b56a1d21dc2cf72e88c3375f8ab0"
+    },
+    {
+      "path": "BoardConfig.mk",
+      "source_path": "BoardConfig.mk",
+      "sha256": "162397ebc47d28baa9f195d45d2822640b0067cfbc4a8b4befd3f92d5b6b7a15",
+      "bytes": 23909,
+      "published_sha256": "d4929f8f642c54312b4dc1d97b283cd8159922d3a47adf9a371acfebfa5e03e1"
+    },
+    {
+      "path": "device.mk",
+      "source_path": "device.mk",
+      "sha256": "e46ca42e25055a8bf6e022e795f3892ebf36b27689e1d6afa021575c9004ef34",
+      "bytes": 10429,
+      "published_sha256": "533546555dcda0cd1c337a5ad1aca27ea91976fd3896c53d7e9c3a04f6e39e96"
+    },
+    {
+      "path": "lineage_l681.mk",
+      "source_path": "lineage_l681.mk",
+      "sha256": "c2317cfc17eb9e4d54f6b373cd0f2d465649340898a86cd953125d9339f717df",
+      "bytes": 4110,
+      "published_sha256": "e30ead26396e70556e6340f4bf3574e37a703f2282f3fdef7bf467f43af639e1"
+    },
+    {
+      "path": "manifest.xml",
+      "source_path": "manifest.xml",
+      "sha256": "e09ddffb5561660379daeabe692ba393cacd1f59da7e12deb527e55d99814545",
+      "bytes": 7927,
+      "published_sha256": "e09ddffb5561660379daeabe692ba393cacd1f59da7e12deb527e55d99814545"
+    },
+    {
+      "path": "overlay/frameworks/base/core/res/res/values/config.xml",
+      "source_path": "overlay/frameworks/base/core/res/res/values/config.xml",
+      "sha256": "dfcdc4b185155ff33277d7c5a0c086d8ac152ddf871b4c7ff002aa810d360c22",
+      "bytes": 2670,
+      "published_sha256": "6eb0f9e08ad6d9eb7d2c5a9ffc8af2ca4f42bdd4cafcf732ba3838f4c4be135f"
+    },
+    {
+      "path": "prebuilt/SHA256SUMS",
+      "source_path": "prebuilt/SHA256SUMS",
+      "sha256": "4f1d4ef0caadf37c2994ed5fb169edb39ff7b26c1ffd578720b04586c90fafa1",
+      "bytes": 79,
+      "published_sha256": "4f1d4ef0caadf37c2994ed5fb169edb39ff7b26c1ffd578720b04586c90fafa1"
+    },
+    {
+      "path": "proprietary-files.txt",
+      "source_path": "proprietary-files.txt",
+      "sha256": "7009bc4d269f770b6317427b5be598fe4e3cdc50f704cd72da22645504dcb875",
+      "bytes": 10954,
+      "published_sha256": "9035fadffa9b33b875fa63cf1140c507965bceda71646fa3cbca8328afc957f3"
+    },
+    {
+      "path": "rootdir/etc/fstab.mt6755",
+      "source_path": "rootdir/etc/fstab.mt6755",
+      "sha256": "6c984b70801ef8751424d6701975e8cab5d62bf98d851ca440f8998965be662f",
+      "bytes": 9424,
+      "published_sha256": "1ca08ac940c32570c75ff9edf30d93f43657f86c0e9c6e413b1f75e30f51cf34"
+    },
+    {
+      "path": "rootdir/etc/init/init.l681.wifi.rc",
+      "source_path": "rootdir/etc/init/init.l681.wifi.rc",
+      "sha256": "7a2273b9647be429441a9c61823caa06f59c5a70560234b9a145f6b6e44358ad",
+      "bytes": 1145,
+      "published_sha256": "7a2273b9647be429441a9c61823caa06f59c5a70560234b9a145f6b6e44358ad"
+    },
+    {
+      "path": "sepolicy/vendor/file.te",
+      "source_path": "sepolicy/vendor/file.te",
+      "sha256": "a3e70ed83d5bd73a6bb5900e93ba4265ac3aa110369f62852c0be66a2966b220",
+      "bytes": 734,
+      "published_sha256": "a3e70ed83d5bd73a6bb5900e93ba4265ac3aa110369f62852c0be66a2966b220"
+    },
+    {
+      "path": "system.prop",
+      "source_path": "system.prop",
+      "sha256": "e10e3aa294bb9e92c1a0e4c1d1ea2de596de28fca1cb12dd6948791c99238605",
+      "bytes": 2332,
+      "published_sha256": "cbd363f3a7cae9431ba642671ad990bf900de50efcd7246fcfc71d9a73ff4239"
+    },
+    {
+      "path": "vendor.prop",
+      "source_path": "vendor.prop",
+      "sha256": "235632844606249a33650c073d7ccb103b751bc38f246ec571be8e48250366d3",
+      "bytes": 1337,
+      "published_sha256": "235632844606249a33650c073d7ccb103b751bc38f246ec571be8e48250366d3"
+    },
+    {
+      "path": "wifi/p2p_supplicant.conf",
+      "source_path": "wifi/p2p_supplicant.conf",
+      "sha256": "d4b26df0018a1c8c6f2929f4171ea0aea4c787dd1f388418c96b14d4303035c5",
+      "bytes": 363,
+      "published_sha256": "d4b26df0018a1c8c6f2929f4171ea0aea4c787dd1f388418c96b14d4303035c5"
+    },
+    {
+      "path": "wifi/wpa_supplicant.conf",
+      "source_path": "wifi/wpa_supplicant.conf",
+      "sha256": "69b25f04bcaca597213c1fa90673a5e3001c2c053cba2de57e541f24e0f83384",
+      "bytes": 750,
+      "published_sha256": "69b25f04bcaca597213c1fa90673a5e3001c2c053cba2de57e541f24e0f83384"
+    }
+  ],
+  "excluded": [
+    {
+      "path": "BRINGUP_STATE.md",
+      "reason": "private operational notes/tooling"
+    },
+    {
+      "path": "prebuilt/Image.gz-dtb",
+      "reason": "binary/prebuilt/compiled input excluded",
+      "sha256": "a150f5756935be8c78bbdafe56425f9502184d9bcc8692126fba0a2928199693",
+      "bytes": 8003521
+    }
+  ],
+  "redactions": [
+    {
+      "path": "BoardConfig.mk",
+      "purpose": "Remove device serial identifiers from comments or evidence descriptions",
+      "source_sha256": "162397ebc47d28baa9f195d45d2822640b0067cfbc4a8b4befd3f92d5b6b7a15"
+    },
+    {
+      "path": "device.mk",
+      "purpose": "Remove device serial identifiers from comments or evidence descriptions",
+      "source_sha256": "e46ca42e25055a8bf6e022e795f3892ebf36b27689e1d6afa021575c9004ef34"
+    },
+    {
+      "path": "lineage_l681.mk",
+      "purpose": "Remove device serial identifiers from comments or evidence descriptions",
+      "source_sha256": "c2317cfc17eb9e4d54f6b373cd0f2d465649340898a86cd953125d9339f717df"
+    },
+    {
+      "path": "overlay/frameworks/base/core/res/res/values/config.xml",
+      "purpose": "Remove device serial identifiers from comments or evidence descriptions",
+      "source_sha256": "dfcdc4b185155ff33277d7c5a0c086d8ac152ddf871b4c7ff002aa810d360c22"
+    },
+    {
+      "path": "proprietary-files.txt",
+      "purpose": "Remove device serial identifiers from comments or evidence descriptions",
+      "source_sha256": "7009bc4d269f770b6317427b5be598fe4e3cdc50f704cd72da22645504dcb875"
+    },
+    {
+      "path": "rootdir/etc/fstab.mt6755",
+      "purpose": "Remove device serial identifiers from comments or evidence descriptions",
+      "source_sha256": "6c984b70801ef8751424d6701975e8cab5d62bf98d851ca440f8998965be662f"
+    },
+    {
+      "path": "system.prop",
+      "purpose": "Remove device serial identifiers from comments or evidence descriptions",
+      "source_sha256": "e10e3aa294bb9e92c1a0e4c1d1ea2de596de28fca1cb12dd6948791c99238605"
+    }
+  ],
+  "binaries_published": false,
+  "complete_rom_build": false,
+  "runtime_validation": "not established by this publication"
+}
