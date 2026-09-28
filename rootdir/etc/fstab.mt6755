@@ -1,0 +1,122 @@
+# fstab.mt6755 - Meizu M3 Note Intl (l681), MT6755, LineageOS 20 / Android 13
+#
+# EVIDENCE FOR THE BLOCK MAP
+#   FACT, measured on the live unit REDACTED_UNIT:
+#     p22 = boot    (l681-run-reports/recovery-after-ril-sim1-fail-20260605T180752Z-
+#                    REDACTED_UNIT/boot-partition.txt = "/dev/block/mmcblk0p22";
+#                    .../20260603T213838Z-post-v4-bootblock-recovery-.../bootdev.txt
+#                    resolves .../by-name/boot to the same node)
+#     p29 = system  ([orangefox.system.block_device]: [/dev/block/mmcblk0p29],
+#                    20260603T203105Z-source-3.10-bootlogo-recovery-.../recovery-getprop.txt)
+#     p30 = cache   ("/dev/block/mmcblk0p30 on /cache type ext4" in the live
+#                    mount output captured in the same run-report set)
+#   INFERENCE for every OTHER number below: taken from the m681 map
+#   (meizu-fleet/factbase/mt6755_family.md:67-69 and the m681 LOS16 fstab).
+#   l681 is the international M3 Note - same board, same MTK partition table -
+#   and the three measured anchors match m681 exactly, so the rest of the
+#   ordering is almost certainly identical. It is NOT measured. There is no l681
+#   scatter file anywhere on this disk (checked). Get one, or read `ls -l
+#   /dev/block/platform/mtk-msdc.0/11230000.msdc0/by-name/` off the device,
+#   before trusting any flash script that uses these numbers.
+#   2026-09-25, correction: an l681 scatter IS on disk - the stock Flyme 6.3.0.0G
+#   package /home/n8n/Flyme6G/scatter.txt, byte-identical to m681's.  The
+#   partition ORDER is therefore FACT; pN numbers other than p22/p29/p30 stay
+#   INFERENCE (counted from that order) until read off the unit.
+#
+# WHY RAW NODES AND NOT by-name
+#   The l681 LOS 14.1 fstab uses
+#   /dev/block/platform/mtk-msdc.0/11230000.msdc0/by-name/*, and those links DO
+#   exist on the 3.10.72 kernel (the booting build mounted through them). They
+#   are kept below as commented alternatives. Raw nodes are the default because
+#   this tree is a placeholder for a future 4.x/4.19 kernel whose by-name
+#   behaviour is unknown - m681's 4.4 has no by-name links at all
+#   (mt6755_family.md:69). Switch to by-name only after checking on the kernel
+#   that actually boots.
+#
+# A13 first-stage init: entries flagged `first_stage_mount` are mounted before
+# switch_root; /system must be one of them because A13's /init is only reachable
+# inside the system image (system/core/init/first_stage_mount.cpp:505-525).
+#
+# <src>                    <mnt_point>  <type>  <mnt_flags and options>                                           <fs_mgr_flags>
+
+# FIRST-STAGE ENTRIES USE by-name PATHS (2026-09-25, fleet decision; the rest
+# of this file stays on raw nodes).  First stage matches basename(<src>)
+# against the uevent PARTNAME (system/core init/block_dev_initializer.cpp:79-97);
+# raw "mmcblk0p29" never equals "system" (on m95: 10 s wait, reboot to
+# bootloader — kernel c507946d).  FACT for this unit: the path below is the one
+# LOS 14.1 mounted on the 3.10.72 kernel
+# (l681/lineage14.1-m3note/device/meizu/l681h/rootdir/fstab.mt6755:19, custom),
+# and the m681-line 4.x kernels l681 waits for put msdc0 under the same
+# "mtk-msdc.0" bus (mt6755.dtsi:27-34).  Full reasoning:
+# device/meizu/m681/rootdir/etc/fstab.mt6755.
+# HYPOTHESIS H-FS1 until the first A13 boot.  Marker: dmesg
+#   "__mount(source=/dev/block/platform/mtk-msdc.0/11230000.msdc0/by-name/system,target=/system...)=0".
+# FALLBACK for a kernel without PARTNAME: raw nodes + a self-mapping
+#   androidboot.partition_map, both at once (see BoardConfig.mk).
+/dev/block/platform/mtk-msdc.0/11230000.msdc0/by-name/system /system ext4 ro,barrier=1                                     wait,first_stage_mount
+
+# /vendor is a REAL partition: the stock `custom` partition, 512 MiB (FACT: l681
+# stock scatter, see BoardConfig.mk "Treble - FULL"); p3 is INFERENCE from the
+# scatter order.  Mounted in the first stage with /system, by-name like /system
+# (GPT name "custom" — the name LOS 14.1 mounted it by).
+/dev/block/platform/mtk-msdc.0/11230000.msdc0/by-name/custom /vendor ext4 ro,barrier=1                                     wait,first_stage_mount
+
+# The /custom mount of the LOS 14.1 tree is gone on purpose: the same p3 is
+# /vendor above.  Its size is no longer copied from m681 - it is read off
+# l681's own stock scatter (BoardConfig.mk "Treble - FULL").
+
+/dev/block/mmcblk0p31      /data        ext4    noatime,nosuid,nodev,noauto_da_alloc,discard                      wait,check,formattable
+# /cache is nofail (lesson from the m95 bring-up, 2026-09-24).  `formattable`
+# only covers a WIPED partition (fs_mgr.cpp:1496-1498: format and retry only
+# when the partition has no filesystem).  A /cache that has one but still fails
+# to mount counts as an error, and one error makes mount_all return
+# FS_MGR_MNTALL_FAIL (system/core/fs_mgr/fs_mgr.cpp:1567, 1580, branch
+# meizu-legacy-kernel); queue_fs_event() has no branch for that code
+# (init/builtins.cpp:577-626, "Invalid code"), so ro.crypto.state is never set
+# and zygote-start never fires.  With nofail the same failure is only logged
+# ("Ignoring failure to mount an un-encryptable or wiped partition",
+# fs_mgr.cpp:1557).
+/dev/block/mmcblk0p30      /cache       ext4    noatime,nosuid,nodev,noauto_da_alloc,discard                      wait,check,formattable,nofail
+
+# MediaTek platform partitions. Kept for parity with the m681 tree; the MTK
+# blobs and nvram tooling look these mount points up by name.
+# /protect_f, /protect_s and /nvdata are nofail (lesson 11 of the m95 bring-up,
+# 2026-09-24; m95's own fstab carries the same flags).  Without nofail a failed
+# mount of any of them means a boot loop with no logs: one error makes
+# mount_all return FS_MGR_MNTALL_FAIL (system/core/fs_mgr/fs_mgr.cpp:1567,
+# 1580, branch meizu-legacy-kernel), init sets no ro.crypto.state and zygote
+# never starts.  With nofail the phone boots, and the log shows that NVRAM or
+# the IMEI is missing ("Ignoring failure to mount", fs_mgr.cpp:1557) instead
+# of hiding it.  `formattable` does not cover this case: it only formats a
+# partition that has no filesystem at all (fs_mgr.cpp:1496-1498).
+/dev/block/mmcblk0p11      /protect_f   ext4    noatime,nosuid,nodev,noauto_da_alloc,commit=1,nodelalloc          wait,check,formattable,nofail
+/dev/block/mmcblk0p12      /protect_s   ext4    noatime,nosuid,nodev,noauto_da_alloc,commit=1,nodelalloc          wait,check,formattable,nofail
+/dev/block/mmcblk0p7       /nvdata      ext4    noatime,nosuid,nodev,noauto_da_alloc,discard                      wait,check,formattable,nofail
+
+/dev/block/mmcblk0p19      /nvram       emmc    defaults                                                          defaults
+/dev/block/mmcblk0p8       /proinfo     emmc    defaults                                                          defaults
+/dev/block/mmcblk0p5       /persistent  emmc    defaults                                                          defaults
+/dev/block/mmcblk0p20      /bootloader  emmc    defaults                                                          defaults
+/dev/block/mmcblk0p21      /bootloader2 emmc    defaults                                                          defaults
+/dev/block/mmcblk0p2       /misc        emmc    defaults                                                          defaults
+/dev/block/mmcblk0p22      /boot        emmc    defaults                                                          defaults
+/dev/block/mmcblk0p1       /recovery    emmc    defaults                                                          defaults
+/dev/block/mmcblk0p23      /logo        emmc    defaults                                                          defaults
+/dev/block/mmcblk0p4       /expdb       emmc    defaults                                                          defaults
+/dev/block/mmcblk0p6       /ppl         emmc    defaults                                                          defaults
+/dev/block/mmcblk0p13      /seccfg      emmc    defaults                                                          defaults
+/dev/block/mmcblk0p15      /md1img      emmc    defaults                                                          defaults
+/dev/block/mmcblk0p16      /md1dsp      emmc    defaults                                                          defaults
+/dev/block/mmcblk0p17      /md1arm7     emmc    defaults                                                          defaults
+/dev/block/mmcblk0p18      /md3img      emmc    defaults                                                          defaults
+/dev/block/mmcblk0p24      /tee1        emmc    defaults                                                          defaults
+/dev/block/mmcblk0p25      /tee2        emmc    defaults                                                          defaults
+/dev/block/mmcblk0p26      /secro       emmc    defaults                                                          defaults
+
+# Removable storage
+/devices/mtk-msdc.0/11240000.msdc1*     auto    auto    defaults    voldmanaged=sdcard1:auto
+/devices/soc/11270000.usb3_xhci*        auto    auto    defaults    voldmanaged=usbotg:auto
+
+# zram. Same reasoning as m681: this board ships ~1.78 GB MemTotal and nothing
+# ever set zram0 disksize, so SwapTotal was 0. 768 MiB.
+/dev/block/zram0           none         swap    defaults                                                          zramsize=805306368

@@ -1,0 +1,45 @@
+# system.prop - Meizu M3 Note Intl (l681), MT6755, LineageOS 20 (Android 13)
+#
+# Only properties whose effect is FACT-backed on THIS device are carried over
+# from the LineageOS 14.1 tree that produced the last boot-confirmed build
+# (l681/lineage14.1-m3note/device/meizu/l681h/).
+#
+# The ~50-key debug.sf.* block in that tree's lineage_l681.mk is deliberately
+# NOT copied: every one of those knobs was set while chasing an Android 7
+# fbdev/HWC black screen on a 3.10 kernel, and on A13 with a different display
+# stack they would be pure cargo cult.
+
+ro.forge.meizu.expect_codename=l681
+
+# FACT: [ro.sf.lcd_density]: [480] read off the live unit REDACTED_UNIT while
+# booted (l681-run-reports/restore-boot65cd-20260606T165057Z-REDACTED_UNIT/
+# postboot-getprop.txt).
+ro.sf.lcd_density=480
+
+# FACT (l681h/system.prop, the whole file is these two lines): the RIL argument
+# string contains a space, so it cannot go through PRODUCT_PROPERTY_OVERRIDES -
+# it has to live in system.prop.
+rild.libargs=-d /dev/ttyC0
+
+# FACT, three independent sources agreeing:
+#   - [ro.sf.hwrotation]: [180] on the live booted unit (postboot-getprop.txt);
+#   - the LOS 14.1 product makefile sets ro.sf.hwrotation=180 with the comment
+#     "L681 panel scanout is physically upside-down with the current fbdev path"
+#     (device/meizu/l681h/lineage_l681.mk:25-27);
+#   - the kernel config carries CONFIG_MTK_LCM_PHYSICAL_ROTATION="180"
+#     with CONFIG_MTK_LCM_PHYSICAL_ROTATION_HW unset
+#     (l681-run-reports/318-l681-defconfig-20260608T144751Z/config-l681_318).
+# NOTE the m681/M6 lesson (m6rom16 BoardConfig, corrected 2026-08-03): _HW=y is
+# a real hardware flip in the display path and is NOT interchangeable with the
+# string "180". Do not "simplify" this to _HW on l681 without a live check.
+ro.sf.hwrotation=180
+
+# Hardware navigation keys are absent on m3 note; the on-screen bar is needed.
+# (The LOS 14.1 tree sets the same, twice, in both build variants.)
+qemu.hw.mainkeys=0
+
+# ro.treble.enabled is NOT set here: the build writes ro.treble.enabled=true
+# into /system/build.prop from PRODUCT_FULL_TREBLE (build/make/core/main.mk:187,
+# set in lineage_l681.mk).  The line that pinned it to false went with the
+# Treble switch of 2026-09-25.  ([orangefox.realtreble.rom]: [0] described the
+# LOS 14.1 build on the unit, not this tree.)

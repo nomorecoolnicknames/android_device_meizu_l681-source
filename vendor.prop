@@ -1,0 +1,21 @@
+# vendor.prop — Meizu M3 Note Intl (l681) / MT6755, LineageOS 20 (Android 13).
+# Lands in /vendor/build.prop (TARGET_VENDOR_PROP, BoardConfig.mk).
+
+# Lesson 4 of the m95 bring-up (meizu-fleet/designs/FLEET_PORT_FROM_M95_20260924.md
+# §3, п.4), live now that this tree is Treble.
+# FACT: Build.isBuildConsistent() runs VintfObject.verifyWithoutAvb() only when
+#   IS_TREBLE_ENABLED (frameworks/base/core/java/android/os/Build.java:1254);
+#   frameworks/base, branch meizu-legacy-vendor, skips only the KERNEL part of
+#   that check when this property is set (core/jni/android_os_VintfObject.cpp:106).
+# FACT: the kernel this tree ships is 3.10.72 (prebuilt/Image.gz-dtb, BoardConfig.mk)
+#   and the lowest kernel any Android 13 matrix knows is 4.4 (FCM 3:
+#   kernel_config_p_4.4/4.9/4.14, hardware/interfaces/compatibility_matrices/
+#   Android.bp:30-34) — the same "No kernel entry found" case as m95's 3.18.
+# CHECK after boot: no "There's an internal problem" dialog;
+#   `getprop ro.vendor.vintf.legacy_kernel` = true.
+ro.vendor.vintf.legacy_kernel=true
+
+# audio.primary.mt6755.so of the vendor set is a Nougat build (Flyme 6.2.0.2A,
+# Android 7.0); guard in hardware/interfaces (branch meizu-legacy-kernel)
+# audio/core/all-versions/default/PrimaryDevice.cpp:38-41.  Same line as m681/m95.
+ro.vendor.audio.legacy_nougat_abi=1
