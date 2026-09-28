@@ -1,0 +1,16 @@
+# forge (2026-09-28, flash-l681): diagnostics for the first A9 boots of l681.
+# A logcat ring on /cache survives a failed boot and is readable from TWRP
+# (the flash script never touches /cache); together with /proc/last_kmsg and
+# the kernel's forge_ar= fallback to recovery this makes an unattended boot
+# test leave evidence behind.  Nothing here disarms forge_ar: during bring-up
+# that is done by hand over adb (echo 0 > /proc/forge_ar), so a boot without
+# working adb still falls back to TWRP.  Remove once the build is stable.
+service forge_logcat /system/bin/logcat -b all -v threadtime -f /cache/forge-diag/logcat.txt -r 4096 -n 3
+    user root
+    group root log
+    seclabel u:r:su:s0
+    disabled
+
+on post-fs-data
+    mkdir /cache/forge-diag 0770 root log
+    start forge_logcat

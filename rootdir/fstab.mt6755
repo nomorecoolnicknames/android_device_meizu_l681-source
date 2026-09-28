@@ -1,0 +1,72 @@
+# fstab.mt6755 — Meizu M3 Note L681H (l681), LineageOS 16.0 (Android 9).
+#
+# Fork of the m681 LOS16 fstab with one deliberate change: every block device
+# is named through by-name, never through a raw mmcblk0pN.
+#
+# FACT: the by-name directory below is the one the kernel of this tree
+# (3.10.72+ #56) exposes on this unit.  The ramdisk fstab.mt6755 of the image
+# that booted it (boot-l681-ov13853-stockgeom-8a1a51b-bd90header.img, sha256
+# 65cd6433..., sys.boot_completed=1) mounts /system, /data, /cache, /custom,
+# /protect_f, /protect_s, /nvdata and /persistent from exactly
+#   /dev/block/platform/mtk-msdc.0/11230000.msdc0/by-name/<name>
+# The m681 donor used raw numbers (its 4.4 kernel names the eMMC host
+# differently); those numbers are not needed here.
+#
+# Partition NAMES are FACT from the l681 stock scatter
+# (/home/n8n/Flyme6G/scatter.txt, byte-identical to patch_l91/scatter.txt).
+# The resulting numbers (boot p22, system p29, cache p30, userdata p31) were
+# measured on REDACTED_UNIT; the rest (custom p3, nvdata p7, ...) follow from
+# the scatter order and are INFERENCE -- which is why they are not written here.
+#
+# /vendor = custom.  FACT: 0x20000000 = 512 MiB in the scatter, and LOS 14.1
+# mounted it on this unit as /custom (same booted ramdisk fstab, line
+# ".../by-name/custom /custom ext4 ro wait").  INFERENCE: its CONTENT is
+# disposable (Flyme regional leftovers, as measured on m681's p3); this was
+# never measured on l681.  Back it up before the first vendor.img flash
+# (see README.md, "Before flashing").
+#
+# No first-stage mount (Pie, non-SAR, no DT fstab): everything mounts in
+# mount_all from this ramdisk fstab, as on the m681 donor.
+# No forceencrypt on /data: as on the donor (bring-up; encryption is not a goal).
+
+/dev/block/platform/mtk-msdc.0/11230000.msdc0/by-name/system     /system     ext4  ro                                                        wait
+/dev/block/platform/mtk-msdc.0/11230000.msdc0/by-name/custom     /vendor     ext4  ro                                                        wait
+/dev/block/platform/mtk-msdc.0/11230000.msdc0/by-name/userdata   /data       ext4  noatime,nosuid,nodev,noauto_da_alloc,discard              wait,check,resize
+/dev/block/platform/mtk-msdc.0/11230000.msdc0/by-name/cache      /cache      ext4  noatime,nosuid,nodev,noauto_da_alloc,discard              wait,check
+/dev/block/platform/mtk-msdc.0/11230000.msdc0/by-name/protect1   /protect_f  ext4  noatime,nosuid,nodev,noauto_da_alloc,commit=1,nodelalloc  wait,check,formattable
+/dev/block/platform/mtk-msdc.0/11230000.msdc0/by-name/protect2   /protect_s  ext4  noatime,nosuid,nodev,noauto_da_alloc,commit=1,nodelalloc  wait,check,formattable
+/dev/block/platform/mtk-msdc.0/11230000.msdc0/by-name/nvdata     /nvdata     ext4  noatime,nosuid,nodev,noauto_da_alloc,discard              wait,check,formattable
+
+# Removable media.  FACT: both device paths are the ones in the booted l681
+# ramdisk fstab (the m681 donor's /devices/soc/11270000.usb3_xhci* is the 4.4
+# kernel path and does not exist on 3.10).
+/devices/mtk-msdc.0/11240000.msdc1*          auto  vfat  defaults  voldmanaged=sdcard1:auto,encryptable=userdata
+/devices/mtk-usbotg.1/11270000.usb3_xhci*    auto  vfat  defaults  voldmanaged=usbotg:auto
+
+# Raw emmc slots (recovery / OTA tooling / MTK daemons).
+/dev/block/platform/mtk-msdc.0/11230000.msdc0/by-name/frp        /persistent   emmc  defaults  defaults
+/dev/block/platform/mtk-msdc.0/11230000.msdc0/by-name/nvram      /nvram        emmc  defaults  defaults
+/dev/block/platform/mtk-msdc.0/11230000.msdc0/by-name/proinfo    /proinfo      emmc  defaults  defaults
+/dev/block/platform/mtk-msdc.0/11230000.msdc0/by-name/lk         /bootloader   emmc  defaults  defaults
+/dev/block/platform/mtk-msdc.0/11230000.msdc0/by-name/lk2        /bootloader2  emmc  defaults  defaults
+/dev/block/platform/mtk-msdc.0/11230000.msdc0/by-name/para       /misc         emmc  defaults  defaults
+/dev/block/platform/mtk-msdc.0/11230000.msdc0/by-name/boot       /boot         emmc  defaults  defaults
+/dev/block/platform/mtk-msdc.0/11230000.msdc0/by-name/recovery   /recovery     emmc  defaults  defaults
+/dev/block/platform/mtk-msdc.0/11230000.msdc0/by-name/logo       /logo         emmc  defaults  defaults
+# expdb: post-mortem evidence channel; listed so tools find it by name. Never write.
+/dev/block/platform/mtk-msdc.0/11230000.msdc0/by-name/expdb      /expdb        emmc  defaults  defaults
+/dev/block/platform/mtk-msdc.0/11230000.msdc0/by-name/secro      /secro        emmc  defaults  defaults
+/dev/block/platform/mtk-msdc.0/11230000.msdc0/by-name/seccfg     /seccfg       emmc  defaults  defaults
+/dev/block/platform/mtk-msdc.0/11230000.msdc0/by-name/md1img     /md1img       emmc  defaults  defaults
+/dev/block/platform/mtk-msdc.0/11230000.msdc0/by-name/md1dsp     /md1dsp       emmc  defaults  defaults
+/dev/block/platform/mtk-msdc.0/11230000.msdc0/by-name/md1arm7    /md1arm7      emmc  defaults  defaults
+/dev/block/platform/mtk-msdc.0/11230000.msdc0/by-name/md3img     /md3img       emmc  defaults  defaults
+/dev/block/platform/mtk-msdc.0/11230000.msdc0/by-name/ppl        /ppl          emmc  defaults  defaults
+/dev/block/platform/mtk-msdc.0/11230000.msdc0/by-name/tee1       /tee1         emmc  defaults  defaults
+/dev/block/platform/mtk-msdc.0/11230000.msdc0/by-name/tee2       /tee2         emmc  defaults  defaults
+
+# zram swap, carried from the m681 donor (forge m681 2026-07-29: without it the
+# device ran with SwapTotal: 0).  Paired with "swapon_all /fstab.mt6755" in
+# init.mt6755.rc -- the fstab line alone does nothing.  768 MiB is the donor
+# value; l681 RAM size was not measured for this tree (INFERENCE: same class).
+/dev/block/zram0 none swap defaults zramsize=805306368

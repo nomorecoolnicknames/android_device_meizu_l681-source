@@ -1,0 +1,34 @@
+# l681-stock-files.sha256 — l681-specific blobs taken from the L681H stock
+# system (Flyme 6.3.0.0G intl, L91 layer), NOT from vendor/meizu/m681.
+#
+# Source directory: $(L681_STOCK_DIR), default
+#   /home/n8n/_l681_patch_l91_system_20260502_104156/system
+# FACT: that tree is the L91-patched l681 system (build.prop:
+#   ro.build.mask.id=5.1-1523476097_intlstable,
+#   ro.build.fingerprint=Meizu/meizu_m3note/m3note:5.1/LMY47I/1523476840),
+# and it is what LOS 14.1 l681 installed on this unit (the 14.1 vendor symlink
+# flyme_system -> _l681_patch_l91_system_20260502_104156/system;
+# l681h-vendor.mk:30 sensors, :189-205 firmware).
+# NOT /home/n8n/Flyme6G/system: that is the m91/Wingtech base layer
+# (ALPS.L1.MP10.PRE.V1_WT6755.66.SZ.L_P111); its modem is V9.P60, not l681's.
+#
+# Format: sha256sum output, path relative to $(L681_STOCK_DIR).  Checked by
+# tools/check_l681_stock.sh from device.mk on every product-config pass.
+# Blobs themselves are never committed (CLAUDE.md §5).
+5d62f6a2ca2b7c4df7c32358a55c74b3f939a911e08e40673abd0200e96b2bfd  etc/firmware/modem_1_ulwctg_n.img
+20a72e318ac4043db94614352d2450ef1bf3cc96eb3d9dd284452f9afe25276a  etc/firmware/dsp_1_ulwctg_n.bin
+88a6b1da11a7ca01d26ac9729dfa04976b422bd3720ae606178a33cc00b637a6  etc/firmware/modem_3_3g_n.img
+0cf9c3a40037e30ed02f3f14c91c6afeec53a744e8c978000c761b7eaaf4f060  etc/firmware/catcher_filter_1_ulwctg_n.bin
+9649a12eda9793450f46774f2068562c98f74ebeee7bde79e078d061adbd78c0  etc/firmware/catcher_filter_3_3g_n.bin
+89f46eda739462cbab8de0737ad9d23e450cdfe722a5349bccce12ab241b0cf1  etc/firmware/em_filter_1_ulwctg_n.bin
+96f80a0c22e3a13bab5828802f4d0cc69009ee50f08f16b6d57093a3b11155a7  etc/firmware/ROMv2_lm_patch_1_0_hdr.bin
+12923fb1974d623b3246795e7f23d20fd1702788599552b26894110cdccef102  etc/firmware/ROMv2_lm_patch_1_1_hdr.bin
+cc7b8e93e3c67050d871341fb3097621b7fc8ab52b1f774681cee3c04f580845  etc/firmware/WIFI_RAM_CODE_6755
+1f969db1c96e394fd1ed1b2f6f839e0b1ef74397260dd55141d5cccc5ff644d8  etc/mddb/DbgInfo_LR11.W1539.MD.MP_HQ6755_66_B1A_L_MOLY_LR11_W1539_MD_MP_V9_P20_2016_11_16_19_58_1_ulwctg_n
+6953abd2288abccfb40e929081d44cd50fc3c873fabe1aaff4ce6c27479c4a0f  etc/mddb/MDDB_InfoCustomAppSrcP_MT6755_S00_MOLY_LR11_W1539_MD_MP_V9_P20_1_ulwctg_n.EDB
+8dfbefe09ee53768bd36402edec92af21f5a973b7f1995406f5651bce4af21b6  etc/mddb/MDDB.META_MT6755_S00_MOLY_LR11_W1539_MD_MP_V9_P20_1_ulwctg_n.EDB
+8b2b2663c521a4933dc94f78442433d3d4dc60d398e1d5abc654f57bb195f90d  etc/mddb/mdm_layout_desc_1_ulwctg_n.dat
+7e1cfca581e6e4f511daeb3f33e77ed2a521fc3cd55338d2c04e5199661009a2  lib/hw/sensors.mt6755.so
+108eb0a16524dd06430527866f2ec69bde3e1ba6cf86fa7753ed438f77f30ca2  lib64/hw/sensors.mt6755.so
+7b624b2e911637167668629295df14fd9dd3fba9b4d43c6d271c4a3856b8a2be  bin/msensord
+1402f1b1d6601b209da6b0aa1e47b00019603fd76e0a08b13e48e625b68b4741  bin/akmd09911
