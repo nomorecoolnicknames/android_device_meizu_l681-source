@@ -1,21 +1,8 @@
 #!/bin/sh
-# check_prebuilt_kernel.sh — гейт соответствия prebuilt-ядра l681, вызывается из
-# BoardConfig.mk.  Печатает НИЧЕГО при успехе и подробное указание, что делать,
-# при несовпадении; BoardConfig валит сборку, если вывод непуст.
-#
-# Порт гейта m5c (device/meizu/m5c/tools/check_prebuilt_kernel.sh, LOS16):
-# ядро попадает в образ через TARGET_PREBUILT_KERNEL, кладётся в дерево руками
-# и молча подменяется.  Инвентарь /system и /vendor этого не ловит — ядро в эти
-# разделы не входит.
-#
-# ГРАНИЦА ГЕЙТА: он проверяет СООТВЕТСТВИЕ файла записи в EXPECTED.txt, а НЕ
-# то, что это ядро годится для Android 9.  Сейчас там 3.10.72 #3 a9binder2 (binder
-# из 4.9, hwbinder/vndbinder) — загрузило REDACTED_UNIT на LOS 14.1 до
-# boot_completed=1 (2026-09-28); под Pie проверяется первой сборкой A9.
-# До 2026-09-28 здесь было 3.10.72+ #56.  См. README.md, раздел «Ядро».
-#
-#   $1 — путь к Image.gz-dtb
-#   $2 — путь к файлу ожиданий (MD5 / VERSION)
+# Verify the prebuilt against the supplied MD5/VERSION expectations.
+# Success is silent; stdout on mismatch makes BoardConfig reject the input.
+# Usage: check_prebuilt_kernel.sh IMAGE EXPECTATIONS
+
 set -u
 IMG=$1
 EXP=$2
