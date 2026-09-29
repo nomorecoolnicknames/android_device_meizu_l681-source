@@ -37,7 +37,9 @@ $(call inherit-product-if-exists, frameworks/native/build/phone-xxhdpi-3072-dalv
 #    akmd09911 of the L681H, instead of m681's InvenSense MPL HAL.
 # C2K boot rom boot_3_3g_n.rom is NOT shipped: the L681H stock has none, the
 # 14.1 set had none, and this product runs ro.mtk_c2k_support=0.
-L681_STOCK_DIR ?= /home/n8n/_l681_patch_l91_system_20260502_104156/system
+ifeq ($(strip $(L681_STOCK_DIR)),)
+$(error Set L681_STOCK_DIR to the matching L681H L91 stock system directory)
+endif
 l681_stock_check := $(shell $(LOCAL_PATH)/tools/check_l681_stock.sh \
         $(L681_STOCK_DIR) $(LOCAL_PATH)/l681-stock-files.sha256)
 ifneq ($(strip $(l681_stock_check)),)

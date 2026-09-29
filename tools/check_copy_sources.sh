@@ -4,8 +4,21 @@
 # Dynamic foreach/wildcard rules are reported separately, not expanded.
 set -u
 HERE=$(cd "$(dirname "$0")/.." && pwd)
-LOS=${1:-/srv/forge/android/los16-ct07}
-STOCK=${2:-/home/n8n/_l681_patch_l91_system_20260502_104156/system}
+usage() { echo "usage: check_copy_sources.sh ANDROID_TOP L681_STOCK_DIR"; }
+if [ "${1:-}" = "--help" ] && [ "$#" -eq 1 ]; then
+    usage
+    exit 0
+fi
+if [ "$#" -ne 2 ] || [ -z "${1:-}" ] || [ -z "${2:-}" ]; then
+    usage >&2
+    exit 2
+fi
+LOS=$1
+STOCK=$2
+if [ ! -d "$LOS" ] || [ ! -d "$STOCK" ]; then
+    echo "ANDROID_TOP and L681_STOCK_DIR must name existing directories" >&2
+    exit 2
+fi
 exec python3 - "$HERE" "$LOS" "$STOCK" <<'PY'
 import os, re, sys
 here, los, stock = sys.argv[1:4]
