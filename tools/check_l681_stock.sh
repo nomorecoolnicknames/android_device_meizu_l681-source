@@ -1,16 +1,7 @@
 #!/bin/sh
-# check_l681_stock.sh — гейт стоковых блобов l681, вызывается из device.mk.
-# Печатает НИЧЕГО, если каждый файл из списка есть в каталоге стока и его
-# sha256 совпадает; иначе — короткий маркер в stdout (device.mk делает $(error))
-# и подробности в stderr.
-#
-# Зачем: модем, прошивки WMT/Wi-Fi и сенсорный HAL l681 берутся не из
-# vendor/meizu/m681, а из стоковой системы L681H (L91).  Рядом на диске лежит
-# похожий, но ЧУЖОЙ каталог /home/n8n/Flyme6G/system (слой m91/Wingtech,
-# модем V9.P60) — перепутать их значит залить l681 модем другой платы.
-#
-#   $1 — каталог стока (L681_STOCK_DIR)
-#   $2 — список sha256 (l681-stock-files.sha256)
+# Verify the L681H L91 stock files against the supplied SHA256 manifest.
+# On failure print the diagnostic consumed by device.mk; success produces no text.
+# The M681 M91 modem and sensor inputs are incompatible with this board.
 set -u
 DIR=$1
 LIST=$2

@@ -156,18 +156,7 @@ TARGET_COPY_OUT_VENDOR := vendor
 BOARD_VENDORIMAGE_FILE_SYSTEM_TYPE := ext4
 BOARD_VENDORIMAGE_PARTITION_SIZE := 536870912
 
-# --- l681 partition sizes (override device/meizu/mt6755-common) ------------
-# FACT, l681 stock scatter (/home/n8n/Flyme6G/scatter.txt, byte-identical to
-# patch_l91/scatter.txt), linear start addresses:
-#   recovery 0x8000..0x1008000     = 16777216    (16 MiB)
-#   custom   0x1088000..0x21088000 = 536870912   (512 MiB, -> /vendor above)
-#   boot     0x2c300000..0x2d300000 = 16777216
-#   system   0x30000000..0xd0000000 = 2684354560
-#   cache    0xd0000000..0xeb000000 = 452984832
-# boot/system/cache already match mt6755-common/BoardConfigCommon.mk.
-# recovery does NOT: mt6755-common says 33554432 (32 MiB); the partition on
-# this unit is 16 MiB -- a 32 MiB-budget recovery.img would pass the build and
-# overrun the partition at flash time.
+# Partition sizes follow the L681 stock scatter; this board differs from M681.
 BOARD_RECOVERYIMAGE_PARTITION_SIZE := 16777216
 # userdata: INFERENCE.  The scatter gives only its start (0xeb000000); the end
 # is the eMMC size minus flashinfo (16 MiB) and the backup GPT.  eMMC HBG4a2 is
@@ -226,36 +215,7 @@ TARGET_OTA_ASSERT_DEVICE := l681,l681h,l91
 BOARD_NAME := l681
 TARGET_SYSTEM_PROP := device/meizu/l681/system.prop
 
-# Kernel (2026-09-28, flash-l681): prebuilt 3.10.72 #3 "a9binder2" =
-# meizucustoms cm-14.1 a582fa6 + binder backported from 4.9 (via m2note
-# 3.10.108) + forge_autorecovery, config of #56 with upstream camera list and
-# CONFIG_ANDROID_BINDER_DEVICES="binder,hwbinder,vndbinder"
-# (l681-310-worktrees/l681-310-a9binder-20260925, branch forge/l681-a9-binder,
-# 0161375bfa6; artifacts meizu-fleet/artifacts/kernel-l681/a9binder2-a150f5756935be8c).
-# FACT: prebuilt-kernel/Image.gz-dtb is exactly the kernel pages [2048,
-# 2048+8003521) of boot image 2d8a86e1... (LOS 14.1 ramdisk of 65cd6433...),
-# written to p22 with readback 2d8a86e1..., which booted REDACTED_UNIT to
-# sys.boot_completed=1 with /dev/binder, /dev/hwbinder, /dev/vndbinder present
-# (meizu-fleet/flash-l681-20260928.md).  sha256
-# a150f5756935be8c78bbdafe56425f9502184d9bcc8692126fba0a2928199693,
-# md5 a91321c81f956b8c16e690b75428036e.
-# Previous prebuilt (until e8e9d52): 3.10.72+ #56, sha256 ec954389...113f -- no
-# hwbinder/vndbinder, Pie could not start on it.
-# Why not the m681 line (4.4.15 daily / 4.9 G1.1): FACT, m681 4.4 has no driver
-# for any l681 panel (hx8399/ili9885/nt35596 *_al1518) and the board is a
-# different one (Huaqin hq6755_66_b1a_l vs Wingtech wt6755_66_sz_l).
-# Why a 3.10 kernel can carry the m681 Nougat GPU blob: FACT, libGLES_mali.so of
-# vendor/meizu/m681 is U:r5p0-06rel0, the kernel driver of #56 is
-# MALI_RELEASE_NAME r5p0-06rel0 (l681-out KERNEL_OBJ mali-EAC .cmd).
-# a9binder2: FACT, the same MALI_RELEASE_NAME r5p0-06rel0 in its mali .cmd
-# files (/mnt/ramdisk/out-l681-kernel-binder/a9binder, 2026-09-28).
-#
-# Kernel wiring mirrors the m681 donor prebuilt branch exactly (the SFOS
-# from-source branch and the m6-graft source path are not carried):
-# vendor/lineage/build/tasks/kernel.mk:94-146 takes the "source present,
-# TARGET_KERNEL_CONFIG empty" path, and the image reaches boot.img through the
-# ":kernel" PRODUCT_COPY_FILES rule below.  TARGET_KERNEL_SOURCE only names an
-# existing tree for kernel headers; nothing is compiled from it.
+# The prebuilt kernel requires the L681 board DTB and binder, hwbinder and vndbinder devices.
 TARGET_NO_KERNEL := false
 TARGET_KERNEL_ARCH := arm64
 TARGET_KERNEL_HEADER_ARCH := arm64

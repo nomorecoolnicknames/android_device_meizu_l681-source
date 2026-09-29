@@ -1,20 +1,5 @@
-# l681-stock-files.sha256 — l681-specific blobs taken from the L681H stock
-# system (Flyme 6.3.0.0G intl, L91 layer), NOT from vendor/meizu/m681.
-#
-# Source directory: $(L681_STOCK_DIR), default
-#   /home/n8n/_l681_patch_l91_system_20260502_104156/system
-# FACT: that tree is the L91-patched l681 system (build.prop:
-#   ro.build.mask.id=5.1-1523476097_intlstable,
-#   ro.build.fingerprint=Meizu/meizu_m3note/m3note:5.1/LMY47I/1523476840),
-# and it is what LOS 14.1 l681 installed on this unit (the 14.1 vendor symlink
-# flyme_system -> _l681_patch_l91_system_20260502_104156/system;
-# l681h-vendor.mk:30 sensors, :189-205 firmware).
-# NOT /home/n8n/Flyme6G/system: that is the m91/Wingtech base layer
-# (ALPS.L1.MP10.PRE.V1_WT6755.66.SZ.L_P111); its modem is V9.P60, not l681's.
-#
-# Format: sha256sum output, path relative to $(L681_STOCK_DIR).  Checked by
-# tools/check_l681_stock.sh from device.mk on every product-config pass.
-# Blobs themselves are never committed (CLAUDE.md §5).
+# Use L681H L91 stock inputs verified by l681-stock-files.sha256.
+# M681 M91 firmware targets a different board and must not replace these files.
 5d62f6a2ca2b7c4df7c32358a55c74b3f939a911e08e40673abd0200e96b2bfd  etc/firmware/modem_1_ulwctg_n.img
 20a72e318ac4043db94614352d2450ef1bf3cc96eb3d9dd284452f9afe25276a  etc/firmware/dsp_1_ulwctg_n.bin
 88a6b1da11a7ca01d26ac9729dfa04976b422bd3720ae606178a33cc00b637a6  etc/firmware/modem_3_3g_n.img

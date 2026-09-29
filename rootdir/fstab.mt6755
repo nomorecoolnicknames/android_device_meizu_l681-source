@@ -1,33 +1,4 @@
-# fstab.mt6755 — Meizu M3 Note L681H (l681), LineageOS 16.0 (Android 9).
-#
-# Fork of the m681 LOS16 fstab with one deliberate change: every block device
-# is named through by-name, never through a raw mmcblk0pN.
-#
-# FACT: the by-name directory below is the one the kernel of this tree
-# (3.10.72+ #56) exposes on this unit.  The ramdisk fstab.mt6755 of the image
-# that booted it (boot-l681-ov13853-stockgeom-8a1a51b-bd90header.img, sha256
-# 65cd6433..., sys.boot_completed=1) mounts /system, /data, /cache, /custom,
-# /protect_f, /protect_s, /nvdata and /persistent from exactly
-#   /dev/block/platform/mtk-msdc.0/11230000.msdc0/by-name/<name>
-# The m681 donor used raw numbers (its 4.4 kernel names the eMMC host
-# differently); those numbers are not needed here.
-#
-# Partition NAMES are FACT from the l681 stock scatter
-# (/home/n8n/Flyme6G/scatter.txt, byte-identical to patch_l91/scatter.txt).
-# The resulting numbers (boot p22, system p29, cache p30, userdata p31) were
-# measured on REDACTED_UNIT; the rest (custom p3, nvdata p7, ...) follow from
-# the scatter order and are INFERENCE -- which is why they are not written here.
-#
-# /vendor = custom.  FACT: 0x20000000 = 512 MiB in the scatter, and LOS 14.1
-# mounted it on this unit as /custom (same booted ramdisk fstab, line
-# ".../by-name/custom /custom ext4 ro wait").  INFERENCE: its CONTENT is
-# disposable (Flyme regional leftovers, as measured on m681's p3); this was
-# never measured on l681.  Back it up before the first vendor.img flash
-# (see README.md, "Before flashing").
-#
-# No first-stage mount (Pie, non-SAR, no DT fstab): everything mounts in
-# mount_all from this ramdisk fstab, as on the m681 donor.
-# No forceencrypt on /data: as on the donor (bring-up; encryption is not a goal).
+# Use the L681 block-device mapping below; recovery and Android must resolve the same partitions.
 
 /dev/block/platform/mtk-msdc.0/11230000.msdc0/by-name/system     /system     ext4  ro                                                        wait
 /dev/block/platform/mtk-msdc.0/11230000.msdc0/by-name/custom     /vendor     ext4  ro                                                        wait

@@ -1,13 +1,19 @@
-# ReMeizu l681: Android 9 source checkpoint
+# Meizu M3 Note Global: LineageOS 16.0
 
-This branch publishes the actual Android 9 device/common adaptation source from private development commit `4f1c081d476b7dc549172078b76ecafd34763e36`. It is a source review checkpoint, not a downloadable ROM or a claim of successful boot. Original private development history is preserved; this public branch starts from an audited source export so private files are not present in ancestor commits.
+Device configuration, init rules, SELinux policy and compatibility code for Android 9.
+Place this tree at `device/meizu/l681` in the matching LineageOS source tree.
 
-The tree contains product and board configuration, init/SELinux wiring and compatibility code. The Android 11/13 adaptation passed local static product/path/copy checks before publication; those checks did not compile a ROM or prove HAL/runtime compatibility. Android 9 branches retain their board-specific historical work and known integration blockers.
+The build requires the referenced common and MediaTek platform trees, matching kernel
+source/headers and prebuilt image where selected, and this board’s proprietary inputs.
+Use `proprietary-files.txt`, dependency manifests and kernel checks provided by this branch.
+Prebuilt firmware and complete ROM images are not supplied by this repository.
 
-## Inputs and status
+After providing those inputs, select `lunch lineage_l681-userdebug`.
+These sources remain under development; compiling them does not certify all hardware
+or establish a tested installable release.
 
-Prebuilt kernels, shared libraries, compiled SELinux databases, firmware, stock archives and private operational evidence are deliberately absent. No vendor blobs or private Git history are included. `SOURCE_PROVENANCE.json` records exact upstream commit, source file hashes, exclusions and limited identifier redactions. Existing references to excluded inputs remain explicit and must be satisfied separately; they have not been replaced with success stubs.
+Retain the copyright and license notices in individual files.
 
-A complete Android build still requires the matching LineageOS platform, appropriate kernel source/build output and device-specific proprietary inputs. The snapshot alone is not a blob-free ROM build recipe. For open-source-only infrastructure, restrict jobs to selected openly licensed code, source checks and separately audited GPL kernel builds; do not run stock extraction or import firmware there. Retain existing per-file copyright and license notices; this export does not relicense inherited files.
-
-Historical notes may describe previous experiments. They do not certify the current branch on hardware. Common-tree board inheritance is not proof that M6, M3s, U10 or U20 have identical wiring.
+Set `L681_STOCK_DIR` to the matching L681H L91 stock system directory.
+Its files must pass `l681-stock-files.sha256`; M681 firmware is not interchangeable.
+Run `tools/check_copy_sources.sh ANDROID_TOP L681_STOCK_DIR` for static input checks.

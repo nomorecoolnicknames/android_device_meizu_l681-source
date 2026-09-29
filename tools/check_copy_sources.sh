@@ -1,23 +1,7 @@
 #!/bin/sh
-# check_copy_sources.sh — статическая проверка дерева l681 БЕЗ сборки:
-# каждый источник PRODUCT_COPY_FILES, который продукт lineage_l681 соберёт,
-# существует на диске.
-#
-# Что читается: device.mk, lineage_l681.mk, BoardConfig.mk этого дерева и
-# vendor/meizu/m681/m681-vendor.mk (наследуется device.mk).  Переменные
-# подставляются так, как их увидит сборка:
-#   $(LOCAL_PATH), $(DEVICE_PATH)  -> device/meizu/l681 (это дерево)
-#   $(L681_STOCK_DIR)              -> $2 (сток L681H)
-#   $(TARGET_COPY_OUT_VENDOR)      -> vendor
-# Всё остальное (vendor/meizu/m681/..., frameworks/..., hardware/...) ищется
-# в LOS16 repo-дереве $1.
-#
-# Граница: это проверка существования файлов, а не разбор make.  Правила,
-# построенные через $(foreach)/$(wildcard) (audio_param донора), не
-# раскрываются и перечисляются отдельно; фильтры с % пропускаются.
-#
-#   $1 — корень LOS16 repo-дерева (по умолчанию /srv/forge/android/los16-ct07)
-#   $2 — L681_STOCK_DIR (по умолчанию /home/n8n/_l681_patch_l91_system_20260502_104156/system)
+# Check static PRODUCT_COPY_FILES sources without building.
+# Usage: check_copy_sources.sh ANDROID_TOP L681_STOCK_DIR
+# Dynamic foreach/wildcard rules are reported separately, not expanded.
 set -u
 HERE=$(cd "$(dirname "$0")/.." && pwd)
 LOS=${1:-/srv/forge/android/los16-ct07}
