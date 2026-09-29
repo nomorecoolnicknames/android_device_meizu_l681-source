@@ -1,43 +1,5 @@
-# fstab.mt6755 - Meizu M3 Note Intl (l681), MT6755, LineageOS 20 / Android 13
-#
-# EVIDENCE FOR THE BLOCK MAP
-#   FACT, measured on the live unit REDACTED_UNIT:
-#     p22 = boot    (l681-run-reports/recovery-after-ril-sim1-fail-20260605T180752Z-
-#                    REDACTED_UNIT/boot-partition.txt = "/dev/block/mmcblk0p22";
-#                    .../20260603T213838Z-post-v4-bootblock-recovery-.../bootdev.txt
-#                    resolves .../by-name/boot to the same node)
-#     p29 = system  ([orangefox.system.block_device]: [/dev/block/mmcblk0p29],
-#                    20260603T203105Z-source-3.10-bootlogo-recovery-.../recovery-getprop.txt)
-#     p30 = cache   ("/dev/block/mmcblk0p30 on /cache type ext4" in the live
-#                    mount output captured in the same run-report set)
-#   INFERENCE for every OTHER number below: taken from the m681 map
-#   (meizu-fleet/factbase/mt6755_family.md:67-69 and the m681 LOS16 fstab).
-#   l681 is the international M3 Note - same board, same MTK partition table -
-#   and the three measured anchors match m681 exactly, so the rest of the
-#   ordering is almost certainly identical. It is NOT measured. There is no l681
-#   scatter file anywhere on this disk (checked). Get one, or read `ls -l
-#   /dev/block/platform/mtk-msdc.0/11230000.msdc0/by-name/` off the device,
-#   before trusting any flash script that uses these numbers.
-#   2026-09-25, correction: an l681 scatter IS on disk - the stock Flyme 6.3.0.0G
-#   package /home/n8n/Flyme6G/scatter.txt, byte-identical to m681's.  The
-#   partition ORDER is therefore FACT; pN numbers other than p22/p29/p30 stay
-#   INFERENCE (counted from that order) until read off the unit.
-#
-# WHY RAW NODES AND NOT by-name
-#   The l681 LOS 14.1 fstab uses
-#   /dev/block/platform/mtk-msdc.0/11230000.msdc0/by-name/*, and those links DO
-#   exist on the 3.10.72 kernel (the booting build mounted through them). They
-#   are kept below as commented alternatives. Raw nodes are the default because
-#   this tree is a placeholder for a future 4.x/4.19 kernel whose by-name
-#   behaviour is unknown - m681's 4.4 has no by-name links at all
-#   (mt6755_family.md:69). Switch to by-name only after checking on the kernel
-#   that actually boots.
-#
-# A13 first-stage init: entries flagged `first_stage_mount` are mounted before
-# switch_root; /system must be one of them because A13's /init is only reachable
-# inside the system image (system/core/init/first_stage_mount.cpp:505-525).
-#
-# <src>                    <mnt_point>  <type>  <mnt_flags and options>                                           <fs_mgr_flags>
+# Mount /system and /vendor during first-stage init.
+# The custom partition supplies /vendor; other partition identities remain board-specific.
 
 # FIRST-STAGE ENTRIES USE by-name PATHS (2026-09-25, fleet decision; the rest
 # of this file stays on raw nodes).  First stage matches basename(<src>)
