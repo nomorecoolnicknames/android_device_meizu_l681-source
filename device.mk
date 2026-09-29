@@ -174,19 +174,8 @@ PRODUCT_COPY_FILES += \
     frameworks/native/data/etc/android.hardware.wifi.direct.xml:$(TARGET_COPY_OUT_VENDOR)/etc/permissions/android.hardware.wifi.direct.xml \
     frameworks/native/data/etc/handheld_core_hardware.xml:$(TARGET_COPY_OUT_VENDOR)/etc/permissions/handheld_core_hardware.xml
 
-# ---------------------------------------------------------------------------
-# Vendor blobs - the real /vendor image on `custom` (p3).
-#
-# 2026-09-25: the tree now ships the m681 Nougat set (vendor/meizu/m681, branch
-# lineage-20-treble; 839 files of the LOS16 m681 daily driver).  Why not l681's
-# own blobs: l681's stock is Flyme 6.3.0.0G = Android 5.1 / SDK 22
-# (/home/n8n/Flyme6G) and the L revision never got Android 7 - the full
-# argument is in BoardConfig.mk, block "Treble - FULL".
-# REJECTED (old note of this block): "THE BLOBS THEMSELVES ARE NOT ON THIS
-# DISK" - l681's own are at /home/n8n/Flyme6G (+ patch_l91); they are simply
-# the wrong generation for an Android 13 vendor.
-# proprietary-files.txt of this directory stays as the LOS 14.1 inventory.
-# ---------------------------------------------------------------------------
+# Vendor compatibility uses the M681 Nougat base plus board-specific L681 inputs.
+# Do not substitute M681 modem, connectivity firmware or sensor calibration for L681 files.
 $(call inherit-product, vendor/meizu/m681/m681-vendor-blobs.mk)
 
 # N-ABI shims of the same blob set (libm681shim_base, libmtkshim_ui,

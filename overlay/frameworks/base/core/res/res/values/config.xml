@@ -1,25 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
 <!--
-  Framework overlay - Meizu M3 Note Intl (l681).
-
-  PROVENANCE (FACT): carried verbatim from l681's OWN LineageOS 14.1 overlay
-  /srv/forge/android/l681/lineage14.1-m3note/device/meizu/l681h/overlay/
-  frameworks/base/core/res/res/values/config.xml - i.e. from the tree that
-  produced the last boot-confirmed build on unit REDACTED_UNIT
-  (sys.boot_completed=1, restore-boot65cd-20260606T165057Z-REDACTED_UNIT).
-
-  It is NOT copied from m681. That matters: l681 drives a different panel
-  (hx8399_fhd_dsi_vdo_txd_auo_al1518, see BoardConfig.mk) and the campaign rule
-  is "never use l681 artifacts as m681 truth" - which cuts both ways.
-
-  All ten resource names were checked against this tree's
-  frameworks/base/core/res/res/values/{config,symbols}.xml before being copied;
-  none of them was renamed or removed in Android 13.
-
-  Nothing speculative has been added. In particular no refresh-rate, DOZE or
-  colour-mode tuning is asserted - none of it has ever been measured on this
-  unit under anything newer than Android 7.1.2.
+  L681 framework resources. Device-specific panel behaviour still requires runtime verification.
 -->
+
 <resources>
     <bool name="config_showNavigationBar">true</bool>
     <bool name="config_supportSystemNavigationKeys">true</bool>
